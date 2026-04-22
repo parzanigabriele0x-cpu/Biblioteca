@@ -5,16 +5,13 @@
 #ifndef BIBLIOTECA_H
 #define BIBLIOTECA_H
 
-// Costanti per la dimensione della matrice
-const int NUM_LIBRI = 4;
-const int COLONNE = 1;
+const int RIGHE = 5;
+const int COLONNE = 5;
 
-// Prototipi delle funzioni
-void inizializzaLibri(int biblio[NUM_LIBRI][COLONNE]);
-void visualizzaLibri(int biblio[NUM_LIBRI][COLONNE]);
-void prestaLibro(int biblio[NUM_LIBRI][COLONNE]);
-void restituisciLibro(int biblio[NUM_LIBRI][COLONNE]);
-int contaDisponibili(int biblio[NUM_LIBRI][COLONNE]);
-int trovaPrimoDisponibile(int biblio[NUM_LIBRI][COLONNE]);
-
+void inizializzaLibri(int biblio[RIGHE][COLONNE]);
+void visualizzaLibri(int biblio[RIGHE][COLONNE]);
+void prestaLibro(int biblio[RIGHE][COLONNE]);
+void restituisciLibro(int biblio[RIGHE][COLONNE]);
+int contaDisponibili(int biblio[RIGHE][COLONNE]);
+void trovaPrimoDisponibile(int biblio[RIGHE][COLONNE]);
 #endif

@@ -7,67 +7,74 @@
 
 using namespace std;
 
-void inizializzaLibri(int biblio[NUM_LIBRI][COLONNE]) {
-    for(int i = 0; i < NUM_LIBRI; i++) {
-        cout << "Stato libro " << i << " (0: disponibile, 1: in prestito): ";
-        cin >> biblio[i][0];
-    }
-}
-
-void visualizzaLibri(int biblio[NUM_LIBRI][COLONNE]) {
-    cout << "\n--- STATO BIBLIOTECA ---" << endl;
-    for(int i = 0; i < NUM_LIBRI; i++) {
-        cout << "Libro " << i << ": ";
-        if(biblio[i][0] == 0) cout << "Disponibile" << endl;
-        else cout << "In prestito" << endl;
-    }
-}
-
-void prestaLibro(int biblio[NUM_LIBRI][COLONNE]) {
-    int indice;
-    cout << "Inserisci l'indice del libro da prestare (0-3): ";
-    cin >> indice;
-
-    if(indice < 0 || indice >= NUM_LIBRI) {
-        cout << "Errore: indice non valido!" << endl;
-    } else if(biblio[indice][0] == 1) {
-        cout << "Errore: Il libro e' gia' in prestito!" << endl;
-    } else {
-        biblio[indice][0] = 1;
-        cout << "Prestito registrato correttamente." << endl;
-    }
-}
-
-void restituisciLibro(int biblio[NUM_LIBRI][COLONNE]) {
-    int indice;
-    cout << "Inserisci l'indice del libro da restituire (0-3): ";
-    cin >> indice;
-
-    if(indice < 0 || indice >= NUM_LIBRI) {
-        cout << "Errore: indice non valido!" << endl;
-    } else if(biblio[indice][0] == 0) {
-        cout << "Errore: Il libro e' gia' in biblioteca (disponibile)!" << endl;
-    } else {
-        biblio[indice][0] = 0;
-        cout << "Restituzione registrata correttamente." << endl;
-    }
-}
-
-int contaDisponibili(int biblio[NUM_LIBRI][COLONNE]) {
-    int contatore = 0;
-    for(int i = 0; i < NUM_LIBRI; i++) {
-        if(biblio[i][0] == 0) {
-            contatore++;
+void inizializzaLibri(int biblio[RIGHE][COLONNE]) {
+    cout << "Inserimento stato (0: disp, 1: prestito):" << endl;
+    for(int i = 0; i < RIGHE; i++) {
+        for(int j = 0; j < COLONNE; j++) {
+            cout << "Libro [" << i << "][" << j << "]: ";
+            cin >> biblio[i][j];
         }
     }
-    return contatore;
 }
 
-int trovaPrimoDisponibile(int biblio[NUM_LIBRI][COLONNE]) {
-    for(int i = 0; i < NUM_LIBRI; i++) {
-        if(biblio[i][0] == 0) {
-            return i;
+void visualizzaLibri(int biblio[RIGHE][COLONNE]) {
+    cout << "\n--- MAPPA BIBLIOTECA (0=Libero, 1=Occupato) ---" << endl;
+    for(int i = 0; i < RIGHE; i++) {
+        for(int j = 0; j < COLONNE; j++) {
+            cout << biblio[i][j] << "  ";
+        }
+        cout << endl;
+    }
+}
+
+void prestaLibro(int biblio[RIGHE][COLONNE]) {
+    int r, c;
+    cout << "Inserisci Scaffale (riga 0-4) e Ripiano (colonna 0-4) del libro: ";
+    cin >> r >> c;
+
+    if(r < 0 || r >= RIGHE || c < 0 || c >= COLONNE) {
+        cout << "Posizione non valida!" << endl;
+    } else if(biblio[r][c] == 1) {
+        cout << "Gia' in prestito!" << endl;
+    } else {
+        biblio[r][c] = 1;
+        cout << "Prestito effettuato." << endl;
+    }
+}
+
+void restituisciLibro(int biblio[RIGHE][COLONNE]) {
+    int r, c;
+    cout << "Inserisci Scaffale (riga 0-4) e Ripiano (colonna 0-4) da restituire: ";
+    cin >> r >> c;
+
+    if(r < 0 || r >= RIGHE || c < 0 || c >= COLONNE) {
+        cout << "Posizione non valida!" << endl;
+    } else if(biblio[r][c] == 0) {
+        cout << "Il libro e' gia' in biblioteca!" << endl;
+    } else {
+        biblio[r][c] = 0;
+        cout << "Restituzione effettuata." << endl;
+    }
+}
+
+int contaDisponibili(int biblio[RIGHE][COLONNE]) {
+    int cont = 0;
+    for(int i = 0; i < RIGHE; i++) {
+        for(int j = 0; j < COLONNE; j++) {
+            if(biblio[i][j] == 0) cont++;
         }
     }
-    return -1; // Ritorna -1 se nessun libro è disponibile
+    return cont;
+}
+
+void trovaPrimoDisponibile(int biblio[RIGHE][COLONNE]) {
+    for(int i = 0; i < RIGHE; i++) {
+        for(int j = 0; j < COLONNE; j++) {
+            if(biblio[i][j] == 0) {
+                cout << "Primo disponibile in posizione: Scaffale " << i << ", Ripiano " << j << endl;
+                return;
+            }
+        }
+    }
+    cout << "Nessun libro disponibile." << endl;
 }
